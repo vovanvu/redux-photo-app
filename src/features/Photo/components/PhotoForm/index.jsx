@@ -17,17 +17,33 @@ PhotoForm.defaultProps = {
 }
 
 function PhotoForm(props) {
+
+  // initial value for formik
   const initialValue = {
     title: '',
-    category: null,
+    categoryId: null,
     photo: ''
   }
 
+  // validation with Yup
+  const validationSchema = Yup.object().shape({
+    title: Yup.string().required('This field is required!'),
+
+    categoryId: Yup.number().required('This field is required!').nullable(),
+
+    photo: Yup.string().when('categoryId', {
+      is: 1,
+      then: Yup.string().required('This field is required!'),
+      otherwise: Yup.string().notRequired(),
+    })
+  });
 
 
   // npm i --save react-select
   return (
-    <Formik initialValues={initialValue}
+    <Formik 
+    initialValues={initialValue}
+    validationSchema={validationSchema}
     onSubmit={values => console.log('Submit', values)}
     >
       {formikProps => {
@@ -46,7 +62,7 @@ function PhotoForm(props) {
             />
 
             <FastField
-              name="category"
+              name="categoryId"
               component={SelectField}
             
               label="Category"
