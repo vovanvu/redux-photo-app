@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useRouteMatch } from 'react-router-dom';
+import { Route, Routes  } from 'react-router-dom';
 import NotFound from '../../components/NotFound';
 import AddEditPage from './pages/AddEdit';
 import MainPage from './pages/Main';
@@ -7,18 +7,16 @@ import MainPage from './pages/Main';
 Photo.propTypes = {};
 
 function Photo(props) {
-  const match = useRouteMatch();
-  console.log({ match });
 
   return (
-    <Switch>
-      <Route exact path={match.url} component={MainPage} />
+    <Routes>
+      <Route path="/" element={<MainPage/>} />
 
-      <Route path={`${match.url}/add`} component={AddEditPage} />
-      <Route path={`${match.url}/:photoId`} component={AddEditPage} />
+      <Route path="add" element={<AddEditPage/>} />
+      <Route path=":photoId" element={<AddEditPage/>} />
 
       <Route component={NotFound} />
-    </Switch>
+    </Routes>
   );
 }
 
